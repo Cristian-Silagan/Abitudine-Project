@@ -1,6 +1,9 @@
 
 package abitudine;
 import java.awt.Color;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JOptionPane;
 
 public class AbitudineRegisterForm extends javax.swing.JFrame {
     
@@ -37,7 +40,7 @@ public class AbitudineRegisterForm extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(710, 485));
         setResizable(false);
-        setSize(new java.awt.Dimension(675, 428));
+        setSize(new java.awt.Dimension(710, 485));
         getContentPane().setLayout(null);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -48,9 +51,13 @@ public class AbitudineRegisterForm extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cristian\\Downloads\\AbitudineElement.gif")); // NOI18N
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(400, 0, 420, 490);
+        jLabel2.setBounds(400, -10, 420, 500);
 
+        AbitudineRegisterBtn.setBackground(new java.awt.Color(255, 153, 0));
+        AbitudineRegisterBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        AbitudineRegisterBtn.setForeground(new java.awt.Color(255, 255, 255));
         AbitudineRegisterBtn.setText("REGISTER");
+        AbitudineRegisterBtn.setBorder(null);
         AbitudineRegisterBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AbitudineRegisterBtnActionPerformed(evt);
@@ -99,6 +106,11 @@ public class AbitudineRegisterForm extends javax.swing.JFrame {
 
         AbitudineEmailField.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         AbitudineEmailField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
+        AbitudineEmailField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AbitudineEmailFieldActionPerformed(evt);
+            }
+        });
         getContentPane().add(AbitudineEmailField);
         AbitudineEmailField.setBounds(40, 150, 330, 30);
 
@@ -120,14 +132,17 @@ public class AbitudineRegisterForm extends javax.swing.JFrame {
         getContentPane().add(jLabel7);
         jLabel7.setBounds(40, 280, 110, 16);
 
-        jButton2.setText("<-");
+        jButton2.setBackground(new java.awt.Color(255, 153, 0));
+        jButton2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("BACK TO LOGIN");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(40, 30, 50, 23);
+        jButton2.setBounds(40, 30, 160, 26);
 
         AbitudinePasswordField.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         AbitudinePasswordField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
@@ -179,22 +194,41 @@ public class AbitudineRegisterForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AbitudineRegisterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbitudineRegisterBtnActionPerformed
-        // TODO add your handling code here:
+        AbitudineLoginForm login = new AbitudineLoginForm();
+        String firstName = AbitudineFirstName.getText().trim();
+        String lastName = AbitudineLastName.getText().trim();
+        String email = AbitudineEmailField.getText().trim();
+        String password = AbitudinePasswordField.getText().trim();
+        String confirmPass = AbitudineConfirmPassField.getText().trim();
+
+        // Check if any field is empty
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPass.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Please fill in all fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (!password.equals(confirmPass)) {
+            JOptionPane.showMessageDialog(rootPane, "Passwords do not match!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try (FileWriter writer = new FileWriter("accounts.txt", true)) {
+            String userData = String.join(",", firstName, lastName, email, password, confirmPass);
+            writer.write(userData + System.lineSeparator());
+            JOptionPane.showMessageDialog(rootPane, "Registration Successful!");
+            login.setVisible(true);
+            this.setVisible(false);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(rootPane, "Error saving user data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_AbitudineRegisterBtnActionPerformed
 
     private void AbitudineFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbitudineFirstNameActionPerformed
-        if (AbitudineFirstName.getText().equals("Enter First Name")) {
-            AbitudineFirstName.setText(""); 
-            AbitudineFirstName.setForeground(Color.GRAY);
-        }
+
     }//GEN-LAST:event_AbitudineFirstNameActionPerformed
 
     private void AbitudineFirstNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AbitudineFirstNameMouseClicked
-        if (AbitudineLastName.getText().equals("Enter Last Name")) {
-            AbitudineLastName.setText(""); 
-            AbitudineLastName.setForeground(Color.GRAY);
-      
-        }
+
     }//GEN-LAST:event_AbitudineFirstNameMouseClicked
 
     private void AbitudineLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbitudineLastNameActionPerformed
@@ -230,6 +264,10 @@ public class AbitudineRegisterForm extends javax.swing.JFrame {
             AbitudineConfirmPassField.setEchoChar('*');
         }
     }//GEN-LAST:event_AbitudineShowBox2ActionPerformed
+
+    private void AbitudineEmailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbitudineEmailFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AbitudineEmailFieldActionPerformed
 
     /**
      * @param args the command line arguments

@@ -1,17 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package abitudine;
 
-import java.sql.Connection;
-import java.sql.Statement;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Cristian
- */
 public class AbitudineLoginForm extends javax.swing.JFrame {
 
     /**
@@ -31,20 +24,23 @@ public class AbitudineLoginForm extends javax.swing.JFrame {
         jDialog1 = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        abitudineEmailField = new javax.swing.JTextField();
-        abitudinePasswordField = new javax.swing.JPasswordField();
+        LoginEmailField = new javax.swing.JTextField();
+        LoginPasswordField = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         abitudineloginbtn = new javax.swing.JButton();
         abitudineshowpassbox = new javax.swing.JCheckBox();
-        abitudineregisterbtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0));
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Abitudine");
         setBackground(new java.awt.Color(255, 255, 255));
-        setMinimumSize(new java.awt.Dimension(675, 428));
+        setMinimumSize(new java.awt.Dimension(678, 428));
+        setPreferredSize(new java.awt.Dimension(678, 428));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -57,27 +53,27 @@ public class AbitudineLoginForm extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(0, 0, 380, 428);
 
-        abitudineEmailField.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        abitudineEmailField.setAutoscrolls(false);
-        abitudineEmailField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
-        abitudineEmailField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        abitudineEmailField.addActionListener(new java.awt.event.ActionListener() {
+        LoginEmailField.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        LoginEmailField.setAutoscrolls(false);
+        LoginEmailField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
+        LoginEmailField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        LoginEmailField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                abitudineEmailFieldActionPerformed(evt);
+                LoginEmailFieldActionPerformed(evt);
             }
         });
-        getContentPane().add(abitudineEmailField);
-        abitudineEmailField.setBounds(420, 150, 210, 30);
+        getContentPane().add(LoginEmailField);
+        LoginEmailField.setBounds(420, 150, 210, 30);
 
-        abitudinePasswordField.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        abitudinePasswordField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
-        abitudinePasswordField.addActionListener(new java.awt.event.ActionListener() {
+        LoginPasswordField.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        LoginPasswordField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
+        LoginPasswordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                abitudinePasswordFieldActionPerformed(evt);
+                LoginPasswordFieldActionPerformed(evt);
             }
         });
-        getContentPane().add(abitudinePasswordField);
-        abitudinePasswordField.setBounds(420, 210, 210, 30);
+        getContentPane().add(LoginPasswordField);
+        LoginPasswordField.setBounds(420, 210, 210, 30);
 
         jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cristian\\Downloads\\AbitudineFile (3).png")); // NOI18N
         getContentPane().add(jLabel4);
@@ -89,6 +85,7 @@ public class AbitudineLoginForm extends javax.swing.JFrame {
         abitudineloginbtn.setText("LOGIN");
         abitudineloginbtn.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         abitudineloginbtn.setBorderPainted(false);
+        abitudineloginbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         abitudineloginbtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         abitudineloginbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,7 +93,7 @@ public class AbitudineLoginForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(abitudineloginbtn);
-        abitudineloginbtn.setBounds(420, 310, 100, 40);
+        abitudineloginbtn.setBounds(420, 290, 210, 40);
 
         abitudineshowpassbox.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
         abitudineshowpassbox.setForeground(new java.awt.Color(102, 102, 102));
@@ -108,19 +105,6 @@ public class AbitudineLoginForm extends javax.swing.JFrame {
         });
         getContentPane().add(abitudineshowpassbox);
         abitudineshowpassbox.setBounds(420, 250, 140, 20);
-
-        abitudineregisterbtn.setBackground(new java.awt.Color(255, 153, 0));
-        abitudineregisterbtn.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        abitudineregisterbtn.setForeground(new java.awt.Color(255, 255, 255));
-        abitudineregisterbtn.setText("REGISTER");
-        abitudineregisterbtn.setBorder(null);
-        abitudineregisterbtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                abitudineregisterbtnActionPerformed(evt);
-            }
-        });
-        getContentPane().add(abitudineregisterbtn);
-        abitudineregisterbtn.setBounds(530, 310, 100, 40);
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
@@ -134,54 +118,94 @@ public class AbitudineLoginForm extends javax.swing.JFrame {
         getContentPane().add(jLabel5);
         jLabel5.setBounds(420, 190, 130, 14);
 
+        jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
+        jLabel6.setText("Don't have an account?");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(430, 340, 160, 20);
+
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 153, 0));
+        jLabel8.setText("Register");
+        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel8);
+        jLabel8.setBounds(570, 330, 50, 40);
+        getContentPane().add(filler1);
+        filler1.setBounds(570, 330, 10, 20);
+
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(330, 0, 360, 430);
+        jPanel1.setBounds(160, 0, 520, 430);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void abitudineEmailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abitudineEmailFieldActionPerformed
+    private void LoginEmailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginEmailFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_abitudineEmailFieldActionPerformed
+    }//GEN-LAST:event_LoginEmailFieldActionPerformed
 
-    private void abitudinePasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abitudinePasswordFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_abitudinePasswordFieldActionPerformed
+    private void LoginPasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginPasswordFieldActionPerformed
+        
+    }//GEN-LAST:event_LoginPasswordFieldActionPerformed
 
     private void abitudineloginbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abitudineloginbtnActionPerformed
-        String email = abitudineEmailField.getText();
-        String password = new String(abitudinePasswordField.getName());
+        String email = LoginEmailField.getText();
+        String password = LoginPasswordField.getText();
         
-      if (email.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter your email.", "Missing Field", JOptionPane.WARNING_MESSAGE);
-      } else if (password.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter your password.", "Missing Field", JOptionPane.WARNING_MESSAGE);
-      } else {
-        // Example: Check against hardcoded credentials
-            if (email.equals("cristiansilagan15") && password.equals("password123")) {
-                JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                // Proceed to the next step, e.g., open the main application window
-            } else {
-                JOptionPane.showMessageDialog(this, "Invalid email or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        try (FileReader fr = new FileReader("accounts.txt");
+            Scanner reader = new Scanner(fr)) {
+
+           boolean loginSuccessful = false;
+
+           while(reader.hasNextLine()) {
+               String line = reader.nextLine().trim();
+               if(line.isEmpty()) continue;
+
+               String[] parts = line.split(",");
+               if(parts.length < 5) continue; // Skip invalid lines
+
+               // Indexes based on registration format:
+               // firstName (0), lastName (1), email (2), password (3), confirmPass (4)
+               String storedEmail = parts[2].trim();
+               String storedPassword = parts[3].trim();
+
+               if(email.equals(storedEmail) && password.equals(storedPassword)) {
+                   loginSuccessful = true;
+                   AbitudineDashboard dashboard = new AbitudineDashboard();
+                   dashboard.setVisible(true);
+                   this.dispose();
+                   break; // Exit loop immediately after successful login
+               }
+           }
+
+           if(!loginSuccessful) {
+               JOptionPane.showMessageDialog(null, "Invalid Login Details");
+           }
+
+       } catch (IOException e) {
+           JOptionPane.showMessageDialog(null, "Error reading user data: " + e.getMessage(), 
+               "Error", JOptionPane.ERROR_MESSAGE);
+       }
     }//GEN-LAST:event_abitudineloginbtnActionPerformed
 
     private void abitudineshowpassboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abitudineshowpassboxActionPerformed
         if(abitudineshowpassbox.isSelected()) {
-            abitudinePasswordField.setEchoChar((char) 0);
+            LoginPasswordField.setEchoChar((char) 0);
         } else {
-            abitudinePasswordField.setEchoChar('*');
+            LoginPasswordField.setEchoChar('*');
         }
     }//GEN-LAST:event_abitudineshowpassboxActionPerformed
 
-    private void abitudineregisterbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abitudineregisterbtnActionPerformed
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         AbitudineRegisterForm register = new AbitudineRegisterForm();
         register.setLocationRelativeTo(null);
         register.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_abitudineregisterbtnActionPerformed
+    }//GEN-LAST:event_jLabel8MouseClicked
 
     /**
      * @param args the command line arguments
@@ -219,17 +243,19 @@ public class AbitudineLoginForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField abitudineEmailField;
-    private javax.swing.JPasswordField abitudinePasswordField;
+    private javax.swing.JTextField LoginEmailField;
+    private javax.swing.JPasswordField LoginPasswordField;
     private javax.swing.JButton abitudineloginbtn;
-    private javax.swing.JButton abitudineregisterbtn;
     private javax.swing.JCheckBox abitudineshowpassbox;
+    private javax.swing.Box.Filler filler1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
