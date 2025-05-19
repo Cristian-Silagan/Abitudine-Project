@@ -135,6 +135,8 @@ import javax.swing.JOptionPane;
         AbitudineExportBtn = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         AbitudineUsername = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -155,6 +157,16 @@ import javax.swing.JOptionPane;
         AbitudineDashboard = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Abitudine");
@@ -190,7 +202,7 @@ import javax.swing.JOptionPane;
         AbitudineDashboardBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         AbitudineDashboardBtn.setForeground(new java.awt.Color(255, 153, 0));
         AbitudineDashboardBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        AbitudineDashboardBtn.setText("             DASHBOARD");
+        AbitudineDashboardBtn.setText("           DASHBOARD");
         AbitudineDashboardBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         AbitudineDashboardBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -202,7 +214,7 @@ import javax.swing.JOptionPane;
 
         AbitudineAddHabitBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         AbitudineAddHabitBtn.setForeground(new java.awt.Color(255, 153, 0));
-        AbitudineAddHabitBtn.setText("              MANAGE HABITS");
+        AbitudineAddHabitBtn.setText("            MANAGE HABITS");
         AbitudineAddHabitBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         AbitudineAddHabitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -238,10 +250,21 @@ import javax.swing.JOptionPane;
 
         jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 153, 0));
-        jLabel12.setText("        LOGOUT");
+        jLabel12.setText("         LOGOUT");
         jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.add(jLabel12);
-        jLabel12.setBounds(40, 470, 100, 40);
+        jLabel12.setBounds(30, 470, 110, 40);
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (50 x 50 px) (4).png"))); // NOI18N
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(20, 190, 60, 50);
+
+        jLabel13.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 153, 0));
+        jLabel13.setText("            PROFILE");
+        jPanel1.add(jLabel13);
+        jLabel13.setBounds(40, 196, 160, 40);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 230, 590);
@@ -267,7 +290,7 @@ import javax.swing.JOptionPane;
         AbitudineAddHabit.setBackground(new java.awt.Color(255, 255, 255));
         AbitudineAddHabit.setLayout(null);
 
-        AbitudineEditBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (50 x 50 px).png"))); // NOI18N
+        AbitudineEditBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/2.png"))); // NOI18N
         AbitudineEditBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         AbitudineEditBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -288,7 +311,7 @@ import javax.swing.JOptionPane;
         AbitudineAddHabit.add(AbitudineAddButton);
         AbitudineAddButton.setBounds(530, 390, 50, 50);
 
-        AbitudineDeleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (25).png"))); // NOI18N
+        AbitudineDeleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/3_1.png"))); // NOI18N
         AbitudineDeleteBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         AbitudineDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -364,6 +387,64 @@ import javax.swing.JOptionPane;
 
         jTabbedPane2.addTab("tab1", AbitudineDashboard);
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setLayout(null);
+        jPanel5.add(jPanel7);
+        jPanel7.setBounds(332, 5, 100, 100);
+
+        jPanel8.setBackground(new java.awt.Color(255, 153, 0));
+        jPanel8.setLayout(null);
+
+        jLabel14.setFont(new java.awt.Font("Century Gothic", 1, 90)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("10");
+        jPanel8.add(jLabel14);
+        jLabel14.setBounds(50, 20, 130, 120);
+
+        jLabel15.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("Tasks Due Today");
+        jPanel8.add(jLabel15);
+        jLabel15.setBounds(0, 170, 240, 23);
+
+        jPanel5.add(jPanel8);
+        jPanel8.setBounds(50, 70, 240, 220);
+
+        jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel5.add(jSeparator4);
+        jSeparator4.setBounds(0, 30, 80, 520);
+
+        jPanel9.setBackground(new java.awt.Color(255, 153, 0));
+        jPanel9.setForeground(new java.awt.Color(255, 153, 0));
+        jPanel9.setLayout(null);
+
+        jLabel16.setFont(new java.awt.Font("Century Gothic", 1, 70)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("3");
+        jPanel9.add(jLabel16);
+        jLabel16.setBounds(20, 20, 60, 60);
+
+        jPanel5.add(jPanel9);
+        jPanel9.setBounds(310, 70, 280, 110);
+
+        jPanel6.setBackground(new java.awt.Color(255, 153, 0));
+        jPanel6.setForeground(new java.awt.Color(255, 153, 0));
+        jPanel6.setLayout(null);
+
+        jLabel17.setFont(new java.awt.Font("Century Gothic", 1, 70)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("4");
+        jPanel6.add(jLabel17);
+        jLabel17.setBounds(20, 10, 60, 70);
+
+        jPanel5.add(jPanel6);
+        jPanel6.setBounds(310, 190, 280, 100);
+
+        jTabbedPane2.addTab("tab5", jPanel5);
+
         getContentPane().add(jTabbedPane2);
         jTabbedPane2.setBounds(230, -10, 660, 590);
 
@@ -371,11 +452,11 @@ import javax.swing.JOptionPane;
     }// </editor-fold>//GEN-END:initComponents
 
     private void AbitudineDashboardBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AbitudineDashboardBtnMouseClicked
-        jTabbedPane2.setSelectedIndex(0);
+        jTabbedPane2.setSelectedIndex(4);
     }//GEN-LAST:event_AbitudineDashboardBtnMouseClicked
 
     private void AbitudineAddHabitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AbitudineAddHabitBtnMouseClicked
-        jTabbedPane2.setSelectedIndex(1);
+        jTabbedPane2.setSelectedIndex(0);
     }//GEN-LAST:event_AbitudineAddHabitBtnMouseClicked
 
     private void AbitudineExportBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AbitudineExportBtnMouseClicked
@@ -457,8 +538,14 @@ import javax.swing.JOptionPane;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -468,10 +555,16 @@ import javax.swing.JOptionPane;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTabbedPane jTabbedPane2;
     // End of variables declaration//GEN-END:variables
 

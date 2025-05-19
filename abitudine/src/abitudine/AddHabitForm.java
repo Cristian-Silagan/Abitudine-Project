@@ -211,23 +211,33 @@ public class AddHabitForm extends javax.swing.JFrame {
             );
             return;
         } else {
-            // Add your code here to save the task to your database or table
-            // For example:
-            // saveTaskToDatabase(task, status, selectedDate, priority, category, notes);
-            // OR
-            // addTaskToTable(task, status, selectedDate, priority, category, notes);
-
-            // Show confirmation message
-            JOptionPane.showMessageDialog(
-                this,
-                "New habit successfully added!",
-                "Success",
-                JOptionPane.INFORMATION_MESSAGE
+            // Actually save the task to the database!
+            boolean saved = AbitudineTasksDatabase.saveTask(
+                task,
+                status,
+                selectedDate,
+                priority,
+                category,
+                notes
             );
 
-            // Close this form
-            this.dispose();
-        }   
+            if (saved) {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "New habit successfully added!",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Failed to add habit. Please try again.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
     }//GEN-LAST:event_AddTaskBtnActionPerformed
 
     private void AddTaskBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AddTaskBtnKeyPressed
