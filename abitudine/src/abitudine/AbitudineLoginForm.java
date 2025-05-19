@@ -40,7 +40,6 @@ public class AbitudineLoginForm extends javax.swing.JFrame {
         setTitle("Abitudine");
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(678, 428));
-        setPreferredSize(new java.awt.Dimension(678, 428));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -80,7 +79,7 @@ public class AbitudineLoginForm extends javax.swing.JFrame {
         jLabel4.setBounds(420, 30, 200, 90);
 
         abitudineloginbtn.setBackground(new java.awt.Color(255, 153, 0));
-        abitudineloginbtn.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        abitudineloginbtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         abitudineloginbtn.setForeground(new java.awt.Color(255, 255, 255));
         abitudineloginbtn.setText("LOGIN");
         abitudineloginbtn.setBorder(javax.swing.BorderFactory.createEtchedBorder());

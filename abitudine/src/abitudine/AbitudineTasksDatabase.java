@@ -2,17 +2,19 @@ package abitudine;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class AbitudineTasksDatabase {
-    private static final String CSV_FILE = "abitudine_task_database.csv";
+    private static final String CSV_FILE = "tasks_database.csv";
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     
-    // Current timestamp and user as provided
-    private static final String CURRENT_USER = "";
-    private static final String CURRENT_TIMESTAMP = ""; // UTC time format
+    // Updated with the exact timestamp and user specified
+    private static final String CURRENT_USER = "Cristian-Silagan";
+    private static final String CURRENT_TIMESTAMP = "2025-05-19 02:54:36"; // UTC time format
     
     // Save task/habit to CSV
     public static boolean saveTask(String taskName, String status, Date dueDate, 
@@ -47,8 +49,8 @@ public class AbitudineTasksDatabase {
             notes = escapeField(notes);
             
             // Write the data
-            pw.println(taskName + "," + status + "," + dueDateStr + "," + priority + "," + 
-                      category + "," + notes + "," + timestamp + "," + user);
+            pw.println(String.join(",", 
+                taskName, status, dueDateStr, priority, category, notes, timestamp, user));
             
             // Close resources
             pw.close();
@@ -59,6 +61,189 @@ public class AbitudineTasksDatabase {
             JOptionPane.showMessageDialog(null, "Error saving to CSV: " + e.getMessage(), 
                                          "File Error", JOptionPane.ERROR_MESSAGE);
             return false;
+        }
+    }
+    
+    // Update an existing task at specified row index
+    public static boolean updateTask(int rowIndex, String taskName, String status, Date dueDate, 
+                                   String priority, String category, String notes) {
+        try {
+            // Read all tasks from file
+            List<String> allTasks = new ArrayList<>();
+            boolean headerRead = false;
+            String header = "";
+            
+            File file = new File(CSV_FILE);
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "Database file not found.", 
+                                             "File Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            
+            // Read the existing file content
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                
+                // Read header
+                header = br.readLine();
+                headerRead = true;
+                
+                // Read all data lines
+                while ((line = br.readLine()) != null) {
+                    allTasks.add(line);
+                }
+            }
+            
+            // Check if the row index is valid
+            if (rowIndex < 0 || rowIndex >= allTasks.size()) {
+                JOptionPane.showMessageDialog(null, "Invalid row index for update.", 
+                                             "Update Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            
+            // Format the due date
+            String dueDateStr = dueDate != null ? DATE_FORMAT.format(dueDate) : "";
+            
+            // Escape fields that might contain commas
+            taskName = escapeField(taskName);
+            status = escapeField(status);
+            priority = escapeField(priority);
+            category = escapeField(category);
+            notes = escapeField(notes);
+            
+            // Get original timestamp and user from the record being updated
+            String[] originalData = parseCsvLine(allTasks.get(rowIndex));
+            String originalTimestamp = originalData[6];
+            String originalUser = originalData[7];
+            
+            // Create updated line
+            String updatedLine = String.join(",", 
+                taskName, status, dueDateStr, priority, category, notes, 
+                originalTimestamp, originalUser);
+            
+            // Replace the old line with updated one
+            allTasks.set(rowIndex, updatedLine);
+            
+            // Write everything back to file
+            try (PrintWriter pw = new PrintWriter(new FileWriter(file))) {
+                // Write header
+                if (headerRead) {
+                    pw.println(header);
+                } else {
+                    pw.println("TaskName,Status,DueDate,Priority,Category,Notes,Timestamp,User");
+                }
+                
+                // Write all tasks
+                for (String task : allTasks) {
+                    pw.println(task);
+                }
+            }
+            
+            return true;
+            
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error updating task: " + e.getMessage(), 
+                                         "File Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
+    // Delete a task at specified row index
+    public static boolean deleteTask(int rowIndex) {
+        try {
+            // Read all tasks from file
+            List<String> allTasks = new ArrayList<>();
+            boolean headerRead = false;
+            String header = "";
+            
+            File file = new File(CSV_FILE);
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "Database file not found.", 
+                                             "File Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            
+            // Read the existing file content
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                
+                // Read header
+                header = br.readLine();
+                headerRead = true;
+                
+                // Read all data lines
+                while ((line = br.readLine()) != null) {
+                    allTasks.add(line);
+                }
+            }
+            
+            // Check if the row index is valid
+            if (rowIndex < 0 || rowIndex >= allTasks.size()) {
+                JOptionPane.showMessageDialog(null, "Invalid row index for deletion.", 
+                                             "Delete Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            
+            // Remove the task at the specified index
+            allTasks.remove(rowIndex);
+            
+            // Write everything back to file
+            try (PrintWriter pw = new PrintWriter(new FileWriter(file))) {
+                // Write header
+                if (headerRead) {
+                    pw.println(header);
+                } else {
+                    pw.println("TaskName,Status,DueDate,Priority,Category,Notes,Timestamp,User");
+                }
+                
+                // Write all remaining tasks
+                for (String task : allTasks) {
+                    pw.println(task);
+                }
+            }
+            
+            return true;
+            
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error deleting task: " + e.getMessage(), 
+                                         "File Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
+    // Get task data for a specific row
+    public static String[] getTaskAtRow(int rowIndex) {
+        try {
+            File file = new File(CSV_FILE);
+            if (!file.exists()) {
+                return null;
+            }
+            
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                // Skip header
+                br.readLine();
+                
+                // Track current row
+                int currentIndex = 0;
+                String line;
+                
+                // Find the requested row
+                while ((line = br.readLine()) != null) {
+                    if (currentIndex == rowIndex) {
+                        // Return the parsed line
+                        return parseCsvLine(line);
+                    }
+                    currentIndex++;
+                }
+            }
+            
+            // If we get here, the row wasn't found
+            return null;
+            
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error retrieving task: " + e.getMessage(), 
+                                         "File Error", JOptionPane.ERROR_MESSAGE);
+            return null;
         }
     }
     

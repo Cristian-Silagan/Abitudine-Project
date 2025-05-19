@@ -193,50 +193,41 @@ public class AddHabitForm extends javax.swing.JFrame {
     }//GEN-LAST:event_TaskNameActionPerformed
 
     private void AddTaskBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddTaskBtnActionPerformed
-         String task = TaskName.getText();
-         String status = (String) StatusType.getSelectedItem(); 
-         Date selectedDate = DueDate.getDate();
-         String priority = (String) PriorityType.getSelectedItem();
-         String category = (String) CategoryType.getSelectedItem();
-         String notes = OptionalNotes.getText();
+        String task = TaskName.getText();
+        String status = (String) StatusType.getSelectedItem(); 
+        Date selectedDate = DueDate.getDate();
+        String priority = (String) PriorityType.getSelectedItem();
+        String category = (String) CategoryType.getSelectedItem();
+        String notes = OptionalNotes.getText();
 
-         String taskName = TaskName.getText().trim();
-         if (taskName.isEmpty()) {
-             // Show warning dialog if task name is empty
-             JOptionPane.showMessageDialog(
-                 this, 
-                 "Please designate a task name before adding the task.", 
-                 "Task Name Required", 
-                 JOptionPane.WARNING_MESSAGE
-             );
-             return;
-         } else {
-             // Save task to database
-             boolean saveSuccessful = AbitudineTasksDatabase.saveTask(
-                 task, status, selectedDate, priority, category, notes
-             );
+        String taskName = TaskName.getText().trim();
+        if (taskName.isEmpty()) {
+            // Show warning dialog if task name is empty
+            JOptionPane.showMessageDialog(
+                this, 
+                "Please designate a task name before adding the task.", 
+                "Task Name Required", 
+                JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        } else {
+            // Add your code here to save the task to your database or table
+            // For example:
+            // saveTaskToDatabase(task, status, selectedDate, priority, category, notes);
+            // OR
+            // addTaskToTable(task, status, selectedDate, priority, category, notes);
 
-             if (saveSuccessful) {
-                 // Show confirmation message
-                 JOptionPane.showMessageDialog(
-                     this,
-                     "New habit successfully added!",
-                     "Success",
-                     JOptionPane.INFORMATION_MESSAGE
-                 );
+            // Show confirmation message
+            JOptionPane.showMessageDialog(
+                this,
+                "New habit successfully added!",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE
+            );
 
-                 // Close this form
-                 this.dispose();
-             } else {
-                 // Show error message
-                 JOptionPane.showMessageDialog(
-                     this,
-                     "Error saving habit. Please try again.",
-                     "Error",
-                     JOptionPane.ERROR_MESSAGE
-                 );
-             }
-         }
+            // Close this form
+            this.dispose();
+        }   
     }//GEN-LAST:event_AddTaskBtnActionPerformed
 
     private void AddTaskBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AddTaskBtnKeyPressed

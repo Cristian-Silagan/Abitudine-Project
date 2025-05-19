@@ -4,51 +4,65 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JOptionPane;
+
 
     public class AbitudineDashboard extends javax.swing.JFrame {
             
         
 //      PROFILE NAME 
         public AbitudineDashboard() {
-            String firstName = "Guest";
-            String lastName = "";
+    String firstName = "Guest";
+    String lastName = "";
 
-            // Read the last registered user from accounts.txt
-            try (BufferedReader reader = new BufferedReader(new FileReader("accounts.txt"))) {
-                String line;
-                String lastLine = null;
+    // Read the last registered user from accounts.txt
+    try (BufferedReader reader = new BufferedReader(new FileReader("accounts.txt"))) {
+        String line;
+        String lastLine = null;
 
-                // Read until the last line (last registered user)
-                while ((line = reader.readLine()) != null) {
-                    lastLine = line;
-                }
+        // Read until the last line (last registered user)
+        while ((line = reader.readLine()) != null) {
+            lastLine = line;
+        }
 
-                if (lastLine != null) {
-                    // Split the last line to extract firstName and lastName
-                    String[] userData = lastLine.split(",");
-                    firstName = userData[0];
-                    lastName = userData[1];
-                }
-            } catch (IOException e) {
-                System.err.println("Error reading user data: " + e.getMessage());
+        if (lastLine != null) {
+            // Split the last line to extract firstName and lastName
+            String[] userData = lastLine.split(",");
+            
+            // Make sure the array has at least 2 elements before accessing them
+            if (userData.length >= 2) {
+                firstName = userData[0];
+                lastName = userData[1];
+            } else {
+                System.err.println("Invalid user data format in accounts.txt: " + lastLine);
+                // Keep default values for firstName and lastName
             }
+        }
+    } catch (IOException e) {
+        System.err.println("Error reading user data: " + e.getMessage());
+    }
 
-            initComponents();
-            setLocationRelativeTo(null);
-            setIconImage(new javax.swing.ImageIcon("C:/Users/Cristian/Downloads/AbitudineLogo (1).png").getImage());
+    initComponents();
+    setLocationRelativeTo(null);
+    setIconImage(new javax.swing.ImageIcon("C:/Users/Cristian/Downloads/AbitudineLogo (1).png").getImage());
 
-            AbitudineUsername.setText(firstName + " " + lastName);
+    AbitudineUsername.setText(firstName + " " + lastName);
 
-            // Initialize the tasks table
-            initializeTasksTable();
+    // Initialize the tasks table
+    initializeTasksTable();
         }
         
+    // Add this method to initialize the table with right-click menu
     private void initializeTasksTable() {
         // Create table model with the same columns as in your UI
         DefaultTableModel model = new DefaultTableModel(
             new String[] {"Task name", "Status", "Due Date", "Priority", "Category", "Notes"}, 0) {
 
-            // Make cells non-editable if needed
+            // Make cells non-editable
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -60,6 +74,40 @@ import javax.swing.table.DefaultTableModel;
 
         // Load data from database
         AbitudineTasksDatabase.loadTasksToTable(model);
+
+        // Create popup menu
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem editItem = new JMenuItem("Edit Task");
+        JMenuItem deleteItem = new JMenuItem("Delete Task");
+
+        // Add items to popup menu
+        popupMenu.add(editItem);
+        popupMenu.add(deleteItem);
+        
+        // Add action listeners for menu items
+            editItem.addActionListener(e -> editSelectedTask());
+            deleteItem.addActionListener(e -> deleteSelectedTask());
+
+
+        // Add mouse listener for right-click events
+        AbitudineTasksTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                // Check for right-click
+                if (e.isPopupTrigger()) {
+                    // Get the row that was clicked
+                    int row = AbitudineTasksTable.rowAtPoint(e.getPoint());
+
+                    if (row >= 0 && row < AbitudineTasksTable.getRowCount()) {
+                        // Select the row
+                        AbitudineTasksTable.setRowSelectionInterval(row, row);
+
+                        // Show popup menu
+                        popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
+            }
+        });
     }
     
     public void refreshTasksTable() {
@@ -80,10 +128,8 @@ import javax.swing.table.DefaultTableModel;
         jLabel2 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         AbitudineDashboardBtn = new javax.swing.JLabel();
         AbitudineAddHabitBtn = new javax.swing.JLabel();
-        AbitudineMngeHabitBtn = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
         AbitudineExportBtn = new javax.swing.JLabel();
@@ -94,10 +140,10 @@ import javax.swing.table.DefaultTableModel;
         jLabel5 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jTabbedPane2 = new javax.swing.JTabbedPane();
-        AbitudineDashboard = new javax.swing.JPanel();
         AbitudineAddHabit = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
+        AbitudineEditBtn = new javax.swing.JLabel();
         AbitudineAddButton = new javax.swing.JLabel();
+        AbitudineDeleteBtn = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         AbitudineTasksTable = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
@@ -106,6 +152,9 @@ import javax.swing.table.DefaultTableModel;
         jLabel8 = new javax.swing.JLabel();
         AbitudineExport = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
+        AbitudineDashboard = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Abitudine");
@@ -138,11 +187,6 @@ import javax.swing.table.DefaultTableModel;
         jPanel1.add(jLabel3);
         jLabel3.setBounds(30, 140, 40, 40);
 
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (22).png"))); // NOI18N
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(30, 180, 40, 50);
-
         AbitudineDashboardBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         AbitudineDashboardBtn.setForeground(new java.awt.Color(255, 153, 0));
         AbitudineDashboardBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -158,7 +202,7 @@ import javax.swing.table.DefaultTableModel;
 
         AbitudineAddHabitBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         AbitudineAddHabitBtn.setForeground(new java.awt.Color(255, 153, 0));
-        AbitudineAddHabitBtn.setText("              ADD TASK");
+        AbitudineAddHabitBtn.setText("              MANAGE HABITS");
         AbitudineAddHabitBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         AbitudineAddHabitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -167,18 +211,6 @@ import javax.swing.table.DefaultTableModel;
         });
         jPanel1.add(AbitudineAddHabitBtn);
         AbitudineAddHabitBtn.setBounds(37, 140, 190, 40);
-
-        AbitudineMngeHabitBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        AbitudineMngeHabitBtn.setForeground(new java.awt.Color(255, 153, 0));
-        AbitudineMngeHabitBtn.setText("             MANAGE HABITS");
-        AbitudineMngeHabitBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        AbitudineMngeHabitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                AbitudineMngeHabitBtnMouseClicked(evt);
-            }
-        });
-        jPanel1.add(AbitudineMngeHabitBtn);
-        AbitudineMngeHabitBtn.setBounds(40, 190, 190, 40);
         jPanel1.add(jSeparator3);
         jSeparator3.setBounds(0, 250, 230, 10);
 
@@ -232,17 +264,18 @@ import javax.swing.table.DefaultTableModel;
         getContentPane().add(jSeparator1);
         jSeparator1.setBounds(230, 60, 660, 10);
 
-        AbitudineDashboard.setBackground(new java.awt.Color(255, 255, 255));
-        AbitudineDashboard.setLayout(null);
-        jTabbedPane2.addTab("tab1", AbitudineDashboard);
-
         AbitudineAddHabit.setBackground(new java.awt.Color(255, 255, 255));
         AbitudineAddHabit.setLayout(null);
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (50 x 50 px) (1).png"))); // NOI18N
-        jLabel13.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        AbitudineAddHabit.add(jLabel13);
-        jLabel13.setBounds(470, 380, 50, 70);
+        AbitudineEditBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (50 x 50 px).png"))); // NOI18N
+        AbitudineEditBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AbitudineEditBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AbitudineEditBtnMouseClicked(evt);
+            }
+        });
+        AbitudineAddHabit.add(AbitudineEditBtn);
+        AbitudineEditBtn.setBounds(470, 380, 50, 70);
 
         AbitudineAddButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         AbitudineAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (14).png"))); // NOI18N
@@ -254,6 +287,16 @@ import javax.swing.table.DefaultTableModel;
         });
         AbitudineAddHabit.add(AbitudineAddButton);
         AbitudineAddButton.setBounds(530, 390, 50, 50);
+
+        AbitudineDeleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (25).png"))); // NOI18N
+        AbitudineDeleteBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AbitudineDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AbitudineDeleteBtnMouseClicked(evt);
+            }
+        });
+        AbitudineAddHabit.add(AbitudineDeleteBtn);
+        AbitudineDeleteBtn.setBounds(410, 390, 50, 50);
 
         AbitudineTasksTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -309,6 +352,18 @@ import javax.swing.table.DefaultTableModel;
 
         jTabbedPane2.addTab("tab4", AbitudineExport);
 
+        AbitudineDashboard.setBackground(new java.awt.Color(255, 255, 255));
+        AbitudineDashboard.setLayout(null);
+
+        jPanel3.setBackground(new java.awt.Color(255, 153, 0));
+        jPanel3.setForeground(new java.awt.Color(255, 255, 255));
+        AbitudineDashboard.add(jPanel3);
+        jPanel3.setBounds(30, 60, 210, 150);
+        AbitudineDashboard.add(jPanel4);
+        jPanel4.setBounds(250, 60, 210, 150);
+
+        jTabbedPane2.addTab("tab1", AbitudineDashboard);
+
         getContentPane().add(jTabbedPane2);
         jTabbedPane2.setBounds(230, -10, 660, 590);
 
@@ -322,10 +377,6 @@ import javax.swing.table.DefaultTableModel;
     private void AbitudineAddHabitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AbitudineAddHabitBtnMouseClicked
         jTabbedPane2.setSelectedIndex(1);
     }//GEN-LAST:event_AbitudineAddHabitBtnMouseClicked
-
-    private void AbitudineMngeHabitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AbitudineMngeHabitBtnMouseClicked
-        jTabbedPane2.setSelectedIndex(2);
-    }//GEN-LAST:event_AbitudineMngeHabitBtnMouseClicked
 
     private void AbitudineExportBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AbitudineExportBtnMouseClicked
         jTabbedPane2.setSelectedIndex(3);
@@ -345,6 +396,14 @@ import javax.swing.table.DefaultTableModel;
 
         addhabit.setVisible(true);
     }//GEN-LAST:event_AbitudineAddButtonMouseClicked
+
+    private void AbitudineEditBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AbitudineEditBtnMouseClicked
+        editSelectedTask();
+    }//GEN-LAST:event_AbitudineEditBtnMouseClicked
+
+    private void AbitudineDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AbitudineDeleteBtnMouseClicked
+        deleteSelectedTask();
+    }//GEN-LAST:event_AbitudineDeleteBtnMouseClicked
   
     /**
      * @param args the command line arguments
@@ -387,20 +446,19 @@ import javax.swing.table.DefaultTableModel;
     private javax.swing.JLabel AbitudineAddHabitBtn;
     private javax.swing.JPanel AbitudineDashboard;
     private javax.swing.JLabel AbitudineDashboardBtn;
+    private javax.swing.JLabel AbitudineDeleteBtn;
+    private javax.swing.JLabel AbitudineEditBtn;
     private javax.swing.JPanel AbitudineExport;
     private javax.swing.JLabel AbitudineExportBtn;
     private javax.swing.JPanel AbitudineManageHabits;
-    private javax.swing.JLabel AbitudineMngeHabitBtn;
     private javax.swing.JTable AbitudineTasksTable;
     private javax.swing.JLabel AbitudineUsername;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -408,12 +466,98 @@ import javax.swing.table.DefaultTableModel;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane2;
     // End of variables declaration//GEN-END:variables
+
+    private void editSelectedTask() {
+        int selectedRow = AbitudineTasksTable.getSelectedRow();
+
+        if (selectedRow >= 0) {
+            // Get data for the selected task
+            String[] taskData = AbitudineTasksDatabase.getTaskAtRow(selectedRow);
+
+            if (taskData != null) {
+                // Open edit form with task data
+                EditHabitForm editForm = new EditHabitForm(selectedRow, taskData);
+
+                // Add window listener to refresh the table when the form is closed
+                editForm.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent evt) {
+                        refreshTasksTable();
+                    }
+                });
+
+                editForm.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Could not retrieve task data for editing.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                this,
+                "Please select a task to edit.",
+                "No Selection",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+    }
+
+    private void deleteSelectedTask() {
+        int selectedRow = AbitudineTasksTable.getSelectedRow();
+
+        if (selectedRow >= 0) {
+            // Ask for confirmation before deleting
+            int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to delete this task?",
+                "Confirm Deletion",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                // Delete the task
+                boolean deleted = AbitudineTasksDatabase.deleteTask(selectedRow);
+
+                if (deleted) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Task successfully deleted.",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                    );
+
+                    // Refresh the table
+                    refreshTasksTable();
+                } else {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Error deleting task. Please try again.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                this,
+                "Please select a task to delete.",
+                "No Selection",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+    }
 }
 
 
