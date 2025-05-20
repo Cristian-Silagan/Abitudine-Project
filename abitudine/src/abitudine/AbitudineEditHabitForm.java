@@ -11,13 +11,13 @@ import javax.swing.JOptionPane;
 
 
         
-public class EditHabitForm extends javax.swing.JFrame {
+public class AbitudineEditHabitForm extends javax.swing.JFrame {
 
     private int rowIndex;
     private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     
     
-    public EditHabitForm() {
+    public AbitudineEditHabitForm() {
         initComponents();
         setLocationRelativeTo(null);
         
@@ -28,7 +28,7 @@ public class EditHabitForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
-    public EditHabitForm(int rowIndex, String[] taskData) {
+    public AbitudineEditHabitForm(int rowIndex, String[] taskData) {
         this(); // Call default constructor for UI setup
         
         // Set window title
@@ -83,6 +83,7 @@ public class EditHabitForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(350, 565));
+        setUndecorated(true);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -102,16 +103,16 @@ public class EditHabitForm extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
+                .addGap(121, 121, 121)
                 .addComponent(jLabel2)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel2)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2);
@@ -323,14 +324,18 @@ public class EditHabitForm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditHabitForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AbitudineEditHabitForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditHabitForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AbitudineEditHabitForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditHabitForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AbitudineEditHabitForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditHabitForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AbitudineEditHabitForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -339,7 +344,7 @@ public class EditHabitForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EditHabitForm().setVisible(true);
+                new AbitudineEditHabitForm().setVisible(true);
             }
         });
     }
