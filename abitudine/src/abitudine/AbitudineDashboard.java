@@ -15,7 +15,10 @@ import java.lang.Object;
 
 
     public class AbitudineDashboard extends javax.swing.JFrame {
-            
+        private java.util.List<Object[]> dashboardAllRows = new java.util.ArrayList<>();
+        private String firstName;
+        private String lastName;
+        private String email;        
         
 //      PROFILE NAME 
         public AbitudineDashboard() {
@@ -153,15 +156,27 @@ import java.lang.Object;
             DefaultTableModel dashModel = (DefaultTableModel) jTable1.getModel();
             dashModel.setRowCount(0); // clear existing rows
             for (int i = 0; i < model.getRowCount(); i++) {
-                int colCount = model.getColumnCount();
+                int colCount = Math.min(4, model.getColumnCount());
                 Object[] row = new Object[colCount];
                 for (int j = 0; j < colCount; j++) row[j] = model.getValueAt(i, j);
-                dashModel.addRow(row);
-          }
+                dashboardAllRows.add(row);
+            }
+            applyDashboardFilter();
     }
-
-        
-
+    
+    private void applyDashboardFilter() {
+        String statusFilter = (String) FilterComboBox1.getSelectedItem();
+        String priorityFilter = (String) FilterComboBox2.getSelectedItem();
+        DefaultTableModel dashModel = (DefaultTableModel) jTable1.getModel();
+        dashModel.setRowCount(0);
+        for (Object[] row : dashboardAllRows) {
+            boolean show = true;
+            if (!"All".equals(statusFilter) && row[1] != null && !statusFilter.equalsIgnoreCase(row[1].toString().trim())) show = false;
+            if (!"All".equals(priorityFilter) && row[3] != null && !priorityFilter.equalsIgnoreCase(row[3].toString().trim())) show = false;
+            if (show) dashModel.addRow(row);
+    }
+}
+   
         
 //  MAIN CODE
     @SuppressWarnings("unchecked")
@@ -179,9 +194,7 @@ import java.lang.Object;
         jLabel9 = new javax.swing.JLabel();
         AbitudineExportBtn = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        LogoutButton = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         AbitudineUsername = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -201,6 +214,10 @@ import java.lang.Object;
         jLabel19 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        FilterComboBox1 = new javax.swing.JComboBox<>();
+        FilterComboBox2 = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         AbitudineAddHabit = new javax.swing.JPanel();
         AbitudineEditBtn = new javax.swing.JLabel();
         AbitudineAddButton = new javax.swing.JLabel();
@@ -209,9 +226,6 @@ import java.lang.Object;
         AbitudineTasksTable = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        AbitudineManageHabits = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        AbitudineUsername1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Abitudine");
@@ -233,7 +247,7 @@ import java.lang.Object;
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (9).png"))); // NOI18N
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(30, 90, 40, 40);
+        jLabel2.setBounds(30, 80, 40, 40);
         jPanel1.add(jSeparator2);
         jSeparator2.setBounds(0, 60, 230, 13);
 
@@ -242,7 +256,7 @@ import java.lang.Object;
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (21).png"))); // NOI18N
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(30, 140, 40, 40);
+        jLabel3.setBounds(30, 130, 40, 40);
 
         AbitudineDashboardBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         AbitudineDashboardBtn.setForeground(new java.awt.Color(255, 153, 0));
@@ -255,11 +269,11 @@ import java.lang.Object;
             }
         });
         jPanel1.add(AbitudineDashboardBtn);
-        AbitudineDashboardBtn.setBounds(40, 96, 190, 30);
+        AbitudineDashboardBtn.setBounds(40, 90, 190, 30);
 
         AbitudineAddHabitBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         AbitudineAddHabitBtn.setForeground(new java.awt.Color(255, 153, 0));
-        AbitudineAddHabitBtn.setText("            MANAGE HABITS");
+        AbitudineAddHabitBtn.setText("             MANAGE HABITS");
         AbitudineAddHabitBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         AbitudineAddHabitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -267,14 +281,14 @@ import java.lang.Object;
             }
         });
         jPanel1.add(AbitudineAddHabitBtn);
-        AbitudineAddHabitBtn.setBounds(37, 140, 190, 40);
+        AbitudineAddHabitBtn.setBounds(30, 130, 200, 40);
         jPanel1.add(jSeparator3);
-        jSeparator3.setBounds(0, 250, 230, 10);
+        jSeparator3.setBounds(0, 190, 230, 20);
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (23).png"))); // NOI18N
         jPanel1.add(jLabel9);
-        jLabel9.setBounds(30, 280, 40, 40);
+        jLabel9.setBounds(30, 210, 40, 50);
 
         AbitudineExportBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         AbitudineExportBtn.setForeground(new java.awt.Color(255, 153, 0));
@@ -286,35 +300,24 @@ import java.lang.Object;
             }
         });
         jPanel1.add(AbitudineExportBtn);
-        AbitudineExportBtn.setBounds(33, 286, 200, 30);
+        AbitudineExportBtn.setBounds(30, 220, 200, 30);
 
         jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (19).png"))); // NOI18N
         jPanel1.add(jLabel11);
         jLabel11.setBounds(20, 470, 50, 40);
 
-        jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 153, 0));
-        jLabel12.setText("         LOGOUT");
-        jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel1.add(jLabel12);
-        jLabel12.setBounds(30, 470, 110, 40);
-
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/AbitudineFile (50 x 50 px) (4).png"))); // NOI18N
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(20, 190, 60, 50);
-
-        jLabel13.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 153, 0));
-        jLabel13.setText("                     PROFILE");
-        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+        LogoutButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        LogoutButton.setForeground(new java.awt.Color(255, 153, 0));
+        LogoutButton.setText("         LOGOUT");
+        LogoutButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        LogoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel13MouseClicked(evt);
+                LogoutButtonMouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel13);
-        jLabel13.setBounds(0, 196, 230, 40);
+        jPanel1.add(LogoutButton);
+        LogoutButton.setBounds(30, 470, 110, 40);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 230, 590);
@@ -363,6 +366,7 @@ import java.lang.Object;
         jPanel8.setBounds(50, 60, 240, 220);
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator4.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
         AbitudineDashboardPanel.add(jSeparator4);
         jSeparator4.setBounds(0, 30, 80, 520);
 
@@ -414,13 +418,43 @@ import java.lang.Object;
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Task", "Status", "Due Date", "Priority"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
 
         AbitudineDashboardPanel.add(jScrollPane2);
-        jScrollPane2.setBounds(50, 300, 540, 170);
+        jScrollPane2.setBounds(50, 350, 550, 140);
+
+        FilterComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Not Started", "In Progress", "Completed", "On Hold ", "Delayed", " " }));
+        FilterComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FilterComboBox1ActionPerformed(evt);
+            }
+        });
+        AbitudineDashboardPanel.add(FilterComboBox1);
+        FilterComboBox1.setBounds(50, 320, 110, 22);
+
+        FilterComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "High", "Medium", "Low" }));
+        FilterComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FilterComboBox2ActionPerformed(evt);
+            }
+        });
+        AbitudineDashboardPanel.add(FilterComboBox2);
+        FilterComboBox2.setBounds(170, 320, 110, 22);
+
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel4.setText("Status");
+        AbitudineDashboardPanel.add(jLabel4);
+        jLabel4.setBounds(50, 300, 70, 16);
+
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel8.setText("Priority");
+        AbitudineDashboardPanel.add(jLabel8);
+        jLabel8.setBounds(170, 300, 37, 16);
 
         jTabbedPane2.addTab("tab5", AbitudineDashboardPanel);
 
@@ -494,22 +528,6 @@ import java.lang.Object;
 
         jTabbedPane2.addTab("tab2", AbitudineAddHabit);
 
-        AbitudineManageHabits.setBackground(new java.awt.Color(255, 255, 255));
-        AbitudineManageHabits.setLayout(null);
-
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dashboard_images/an (2).png"))); // NOI18N
-        AbitudineManageHabits.add(jLabel8);
-        jLabel8.setBounds(60, 70, 220, 220);
-
-        AbitudineUsername1.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
-        AbitudineUsername1.setForeground(new java.awt.Color(255, 153, 0));
-        AbitudineUsername1.setText("USER");
-        AbitudineManageHabits.add(AbitudineUsername1);
-        AbitudineUsername1.setBounds(320, 170, 130, 40);
-
-        jTabbedPane2.addTab("tab3", AbitudineManageHabits);
-
         getContentPane().add(jTabbedPane2);
         jTabbedPane2.setBounds(230, -10, 660, 590);
 
@@ -525,7 +543,8 @@ import java.lang.Object;
     }//GEN-LAST:event_AbitudineAddHabitBtnMouseClicked
 
     private void AbitudineExportBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AbitudineExportBtnMouseClicked
-
+        ExportCSVForm exportForm = new ExportCSVForm(AbitudineTasksTable);
+        exportForm.setVisible(true);
     }//GEN-LAST:event_AbitudineExportBtnMouseClicked
 
     private void AbitudineAddButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AbitudineAddButtonMouseClicked
@@ -551,10 +570,36 @@ import java.lang.Object;
         deleteSelectedTask();
     }//GEN-LAST:event_AbitudineDeleteBtnMouseClicked
 
-    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
-        jTabbedPane2.setSelectedIndex(2);
-    }//GEN-LAST:event_jLabel13MouseClicked
-  
+    private void FilterComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FilterComboBox1ActionPerformed
+        applyDashboardFilter();
+    }//GEN-LAST:event_FilterComboBox1ActionPerformed
+
+    private void FilterComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FilterComboBox2ActionPerformed
+        applyDashboardFilter();
+    }//GEN-LAST:event_FilterComboBox2ActionPerformed
+
+    private void LogoutButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutButtonMouseClicked
+        logout();
+    }//GEN-LAST:event_LogoutButtonMouseClicked
+ 
+    private void logout() {
+        int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to logout?",
+            "Logout Confirmation",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Show login form (if you have one)
+            new AbitudineLoginForm().setVisible(true);
+            // Close dashboard
+            this.dispose();
+            // Optionally, clear session data
+        }
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -599,14 +644,13 @@ import java.lang.Object;
     private javax.swing.JLabel AbitudineDeleteBtn;
     private javax.swing.JLabel AbitudineEditBtn;
     private javax.swing.JLabel AbitudineExportBtn;
-    private javax.swing.JPanel AbitudineManageHabits;
     private javax.swing.JTable AbitudineTasksTable;
     private javax.swing.JLabel AbitudineUsername;
-    private javax.swing.JLabel AbitudineUsername1;
+    private javax.swing.JComboBox<String> FilterComboBox1;
+    private javax.swing.JComboBox<String> FilterComboBox2;
+    private javax.swing.JLabel LogoutButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
